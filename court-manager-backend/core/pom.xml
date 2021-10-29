@@ -6,4 +6,12 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>core</artifactId>
+  <dependencyManagement>
+  	<dependencies>
+  		<dependency>
+  			<groupId>com.court.manager</groupId>
+  			<artifactId>model</artifactId>
+  		</dependency>
+  	</dependencies>
+  </dependencyManagement>
 </project>
