@@ -20,10 +20,10 @@ public class BatchEntity extends BaseEntity {
 	private String type;
 	
 	@Column(name = "START_TIME")
-	private LocalTime startTime;
+	private LocalTime startTime = LocalTime.now();
 	
 	@Column(name = "END_TIME")
-	private LocalTime endTime;
+	private LocalTime endTime = LocalTime.now().plusHours(1L);
 	
 	@ManyToOne
 	@JoinColumn(name = "BRANCH_FK")

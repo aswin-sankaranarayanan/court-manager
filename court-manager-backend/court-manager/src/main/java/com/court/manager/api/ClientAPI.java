@@ -18,7 +18,7 @@ import com.court.manager.core.services.ClientService;
 
 @RestController
 @RequestMapping("/client")
-public class ClientApi {
+public class ClientAPI {
 	
 	@Autowired
 	private ClientService clientService;
@@ -43,7 +43,7 @@ public class ClientApi {
 	
 	@DeleteMapping("/{id}")
 	public  ResponseEntity<Void> deleteClient(@PathVariable("id") Long id) throws RecordNotFoundException {
-		clientService.delete(id);
+		clientService.deleteClient(id);
 		return ResponseEntity.ok().build();
 	}
 	

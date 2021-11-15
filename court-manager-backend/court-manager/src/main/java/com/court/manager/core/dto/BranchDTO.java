@@ -20,11 +20,18 @@ public class BranchDTO extends BaseDTO {
 	private Double guestFee;
 	private Double courtFee;
 	private List<ClientUserDTO> clientUsers;
+	private List<BatchDTO> batches;
+	private List<GuestDTO> guests;
+
+
 
 	@JsonIgnore
 	private ClientDTO client;
 	
 	public BranchDTO() {
 		this.clientUsers = new ArrayList<>();
+		this.batches =  new ArrayList<>();
+		this.guests = new ArrayList<>();
+		
 	}
 }

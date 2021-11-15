@@ -9,7 +9,7 @@ import com.court.manager.core.entity.ClientEntity;
 import com.court.manager.core.repository.ClientRepository;
 
 @Service
-public class ClientService extends BaseService<ClientEntity, ClientDTO,ClientRepository> {
+public class ClientService extends BaseService<ClientEntity, ClientDTO,ClientRepository>{
 	
 	private ClientRepository clientRepository;
 	
@@ -36,4 +36,5 @@ public class ClientService extends BaseService<ClientEntity, ClientDTO,ClientRep
 	public void deleteClient(Long id) throws RecordNotFoundException {
 		delete(id);
 	}
+
 }

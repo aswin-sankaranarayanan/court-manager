@@ -3,8 +3,6 @@ package com.court.manager.core.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,27 +10,32 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
+
 import com.court.manager.common.RecordNotFoundException;
 import com.court.manager.core.dto.BaseDTO;
 import com.court.manager.core.dto.PagedResponseDTO;
 import com.court.manager.core.entity.BaseEntity;
 
-@Service @Transactional
+@Service
 public class BaseService<E extends BaseEntity,D extends BaseDTO,R extends PagingAndSortingRepository<E, Long>> {
 	
-	private Class<E> entityClass;
-	private Class<D> dtoClass;
-	private R repostiory;
+	protected Class<E> entityClass;
+	protected Class<D> dtoClass;
+	protected R repository;
 	
 	@Autowired
 	private ModelMapper mapper;
 	
 	
+	
 	public void init(Class<E> entityClass,Class<D> dtoClass, R repository) {
 		this.entityClass = entityClass;
 		this.dtoClass = dtoClass;
-		this.repostiory = repository;
+		this.repository = repository;
 	}
+	
+
+	//public abstract void init(Class<E> entityClass,Class<D> dtoClass, R repository);
 	
 	protected D convertToDTO(E entity, Class<D> dtoClass) {
 		return  mapper.map(entity, dtoClass);
@@ -42,16 +45,21 @@ public class BaseService<E extends BaseEntity,D extends BaseDTO,R extends Paging
 		return  mapper.map(dto, entityClass);
 	}
 	
-	public D save(D dto) {
+	protected D save(D dto) {
 		E convertToEntity = convertToEntity(dto, entityClass);
-		E savedEntity = repostiory.save(convertToEntity);
+		E savedEntity = repository.save(convertToEntity);
 		return convertToDTO(savedEntity,dtoClass);
 	}
 	
-	public PagedResponseDTO<D> findAll(int pageNum, int size) {
+	protected PagedResponseDTO<D> findAll(int pageNum, int size) {
+		Pageable pageable = PageRequest.of(pageNum == 0?0:pageNum-1, size);
+		Page<E> pages =  repository.findAll(pageable);
+		return constructPagedResponseDTO(pages);
+	}
+
+	protected PagedResponseDTO<D> constructPagedResponseDTO(Page<E> pages) {
 		PagedResponseDTO<D> pagedResponseDTO = new PagedResponseDTO<>();
-		Pageable pageable = PageRequest.of(pageNum, size);
-		Page<E> pages =  repostiory.findAll(pageable);
+
 		List<D> dtos = pages.getContent()
 						.stream().map((E e) -> convertToDTO(e, dtoClass))
 						.collect(Collectors.toList());
@@ -63,24 +71,25 @@ public class BaseService<E extends BaseEntity,D extends BaseDTO,R extends Paging
 		return pagedResponseDTO;
 	}
 	
-	public D findOne(D dto) throws RecordNotFoundException {
-		return 	repostiory.findById(dto.getId())
+	protected D findOne(D dto) throws RecordNotFoundException {
+		return 	repository.findById(dto.getId())
 				.map(entity -> convertToDTO(entity,dtoClass))
 				.orElseThrow(() -> new RecordNotFoundException("Entity not found!!"));
 	}
 	
-	public D update(D dto) throws RecordNotFoundException {
-		if(!repostiory.existsById(dto.getId())) {
+	protected D update(D dto) throws RecordNotFoundException {
+		
+		if(!this.repository.existsById(dto.getId())) {
 			throw new RecordNotFoundException("Entity not found for update!!");
 		}
+		
 		return save(dto);
 	}
 	
-	public void delete(Long id) throws RecordNotFoundException {
-		if(!repostiory.existsById(id)) {
+	protected void delete(Long id) throws RecordNotFoundException {
+		if(!this.repository.existsById(id)) {
 			throw new RecordNotFoundException("Entity not found for delete!!");
 		}
-		repostiory.deleteById(id);
+		repository.deleteById(id);
 	}
-	
 }
