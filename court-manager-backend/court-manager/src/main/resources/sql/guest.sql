@@ -1,0 +1,2 @@
+insert into guest(id,name,contact_details,start_time,end_time,fee,fee_paid_on,is_due,branch_fk)
+values(1,'Aswin','aswins@gmail.com','08-NOV-2021 10:00:00','08-NOV-2021 11:00:00',400.00,'08-NOV-2021',0,1);
