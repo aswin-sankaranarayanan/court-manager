@@ -9,16 +9,15 @@ import com.court.manager.core.entity.GuestEntity;
 import com.court.manager.core.repository.GuestReposiotry;
 
 @Service
-public class GuestService extends BaseService<GuestEntity, GuestDTO,GuestReposiotry> {
-	
+public class GuestService extends BaseService<GuestEntity, GuestDTO, GuestReposiotry> {
+
 	@Autowired
 	private GuestReposiotry repository;
-	
+
 	public GuestService() {
-		init(GuestEntity.class,GuestDTO.class,repository);
+		init(GuestEntity.class, GuestDTO.class, repository);
 	}
-	
-	
+
 	public GuestDTO saveGuest(GuestDTO guestDTO) {
 		return save(guestDTO);
 	}
@@ -26,12 +25,19 @@ public class GuestService extends BaseService<GuestEntity, GuestDTO,GuestReposio
 	public PagedResponseDTO<GuestDTO> getAllGuests(int pageNum, int size) {
 		return findAll(pageNum, size);
 	}
-	
+
 	public GuestDTO updateGuest(GuestDTO guestDTO) throws RecordNotFoundException {
 		return update(guestDTO);
 	}
-	
+
 	public void deleteGuest(Long id) throws RecordNotFoundException {
 		delete(id);
+	}
+
+	@Override
+	public void init(Class<GuestEntity> entityClass, Class<GuestDTO> dtoClass, GuestReposiotry repository) {
+		this.entityClass = entityClass;
+		this.dtoClass = dtoClass;
+		this.repository = repository;
 	}
 }

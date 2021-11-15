@@ -18,7 +18,7 @@ import com.court.manager.core.services.GuestService;
 
 @RestController
 @RequestMapping("/guest")
-public class GuestApi {
+public class GuestAPI {
 	
 	@Autowired
 	private GuestService guestService;
@@ -38,12 +38,12 @@ public class GuestApi {
 	
 	@PutMapping
 	public ResponseEntity<GuestDTO> updateGuest(@RequestBody GuestDTO client) throws RecordNotFoundException {
-		return ResponseEntity.ok(guestService.update(client));
+		return ResponseEntity.ok(guestService.updateGuest(client));
 	}
 	
 	@DeleteMapping("/{id}")
 	public  ResponseEntity<Void> deleteGuest(@PathVariable("id") Long id) throws RecordNotFoundException {
-		guestService.delete(id);
+		guestService.deleteGuest(id);
 		return ResponseEntity.ok().build();
 	}
 	

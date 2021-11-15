@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestMethodOrder(value = OrderAnnotation.class)
-class GuestApiTest extends TestHelper{
+class GuestAPITest extends TestHelper{
 
 	@Autowired
 	private ObjectMapper mapper;
