@@ -1,6 +1,10 @@
 package com.court.manager.core.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import com.court.manager.common.RecordNotFoundException;
 import com.court.manager.core.dto.GuestDTO;
@@ -11,10 +15,10 @@ import com.court.manager.core.repository.GuestReposiotry;
 @Service
 public class GuestService extends BaseService<GuestEntity, GuestDTO, GuestReposiotry> {
 
-	@Autowired
-	private GuestReposiotry repository;
+	private GuestReposiotry guestRepository;
 
-	public GuestService() {
+	public GuestService(GuestReposiotry repository) {
+		this.guestRepository = repository;
 		init(GuestEntity.class, GuestDTO.class, repository);
 	}
 
@@ -22,8 +26,10 @@ public class GuestService extends BaseService<GuestEntity, GuestDTO, GuestReposi
 		return save(guestDTO);
 	}
 
-	public PagedResponseDTO<GuestDTO> getAllGuests(int pageNum, int size) {
-		return findAll(pageNum, size);
+	public PagedResponseDTO<GuestDTO> getAllGuests(Long branchId, int pageNum, int size) {
+		Pageable pageable = PageRequest.of(pageNum, size,Sort.by(Direction.DESC, "startTime"));
+		Page<GuestEntity> pages = guestRepository.findAllByBranch_Id(branchId,pageable);
+		return constructPagedResponseDTO(pages);
 	}
 
 	public GuestDTO updateGuest(GuestDTO guestDTO) throws RecordNotFoundException {
@@ -34,10 +40,10 @@ public class GuestService extends BaseService<GuestEntity, GuestDTO, GuestReposi
 		delete(id);
 	}
 
-	@Override
-	public void init(Class<GuestEntity> entityClass, Class<GuestDTO> dtoClass, GuestReposiotry repository) {
-		this.entityClass = entityClass;
-		this.dtoClass = dtoClass;
-		this.repository = repository;
+	public PagedResponseDTO<GuestDTO> findGuest(Long branchId, String query, int pageNum, int size) {
+		Pageable pageable = PageRequest.of(pageNum, size,Sort.by(Direction.ASC, "name"));
+		Page<GuestEntity> pages = guestRepository.findGuestInBranch(branchId,query,pageable);
+		return constructPagedResponseDTO(pages);
 	}
+
 }

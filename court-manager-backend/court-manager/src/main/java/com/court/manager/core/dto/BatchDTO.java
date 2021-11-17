@@ -2,9 +2,7 @@ package com.court.manager.core.dto;
 
 import java.time.LocalTime;
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -14,9 +12,13 @@ import lombok.ToString;
 public class BatchDTO extends BaseDTO {
 
 	private String type;
-	@JsonIgnore
+	
 	private BranchDTO branch;
+	
+	@JsonFormat(pattern = "hh:mm a")
 	private LocalTime startTime;
+	
+	@JsonFormat(pattern = "hh:mm a")
 	private LocalTime endTime;
 	
 	public BatchDTO(){

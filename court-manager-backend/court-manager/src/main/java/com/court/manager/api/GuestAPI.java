@@ -17,18 +17,28 @@ import com.court.manager.core.dto.PagedResponseDTO;
 import com.court.manager.core.services.GuestService;
 
 @RestController
-@RequestMapping("/guest")
+@RequestMapping("/api/guest")
 public class GuestAPI {
 	
 	@Autowired
 	private GuestService guestService;
 	
-	@GetMapping
-	public ResponseEntity<PagedResponseDTO<GuestDTO>> getAllGuests(@RequestParam(name = "page", defaultValue = "0") int pageNum,
+	@GetMapping("/{branchId}")
+	public ResponseEntity<PagedResponseDTO<GuestDTO>> getAllGuests(
+			@PathVariable("branchId") Long branchId,
+			@RequestParam(name = "page", defaultValue = "0") int pageNum,
 			@RequestParam(name = "size", defaultValue = "5") int size){
-		return ResponseEntity.ok(guestService.getAllGuests(pageNum,size));
+		return ResponseEntity.ok(guestService.getAllGuests(branchId,pageNum,size));
 	}
 	
+	@GetMapping("/search/{branchId}")
+	public ResponseEntity<PagedResponseDTO<GuestDTO>> getAllGuests(
+			@PathVariable("branchId") Long branchId,
+			@RequestParam("query") String query,
+			@RequestParam(name = "page", defaultValue = "0") int pageNum,
+			@RequestParam(name = "size", defaultValue = "5") int size){
+		return ResponseEntity.ok(guestService.findGuest(branchId,query,pageNum,size));
+	}
 
 	@PostMapping
 	public ResponseEntity<GuestDTO> saveGuest(@RequestBody GuestDTO client) {

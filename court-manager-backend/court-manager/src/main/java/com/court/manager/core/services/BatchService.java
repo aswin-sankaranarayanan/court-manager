@@ -26,16 +26,12 @@ public class BatchService extends BaseService<BatchEntity, BatchDTO, BatchReposi
 
 
 	public BatchDTO saveBatch(BatchDTO batchDTO) throws RecordNotFoundException {
-		BranchDTO branchDTO = branchService.findBranch(batchDTO.getBranch());
-		batchDTO.setBranch(branchDTO);
 		return save(batchDTO);
 	}
 
 
 
 	public BatchDTO updateBatch(BatchDTO batchDTO) throws RecordNotFoundException {
-		BatchDTO sourceBatchDTO = findOne(batchDTO);
-		batchDTO.setBranch(sourceBatchDTO.getBranch());
 		return update(batchDTO);
 	}
 	
