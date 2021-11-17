@@ -19,8 +19,14 @@ public class BranchDTO extends BaseDTO {
 	private Double monthlyFee;
 	private Double guestFee;
 	private Double courtFee;
+	
+	@JsonIgnore
 	private List<ClientUserDTO> clientUsers;
+	
+	@JsonIgnore
 	private List<BatchDTO> batches;
+	
+	@JsonIgnore
 	private List<GuestDTO> guests;
 
 

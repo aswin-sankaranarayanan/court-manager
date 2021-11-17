@@ -1,5 +1,7 @@
 package com.court.manager.core.entity;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -22,19 +24,22 @@ public class GuestEntity extends BaseEntity{
 	private String contactDetails;
 	
 	@Column(name = "START_TIME")
-	private Date startTime;
+	private LocalTime startTime;
 	
 	@Column(name = "END_TIME")
-	private  Date endTime;
+	private LocalTime endTime;
 	
 	@Column(name = "FEE")
 	private Double fee;
 	
 	@Column(name = "FEE_PAID_ON")
-	private  Date feePaidOn;
+	private  LocalDate feePaidOn;
 	
 	@Column(name = "IS_DUE")
 	private Boolean due;
+	
+	@Column(name = "IS_FULL_COURT")
+	private Boolean fullCourt;
 	
 	@ManyToOne
 	@JoinColumn(name = "BRANCH_FK")
