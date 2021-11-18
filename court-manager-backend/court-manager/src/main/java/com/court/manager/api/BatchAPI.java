@@ -34,8 +34,7 @@ public class BatchAPI {
 	}
 	
 	@PostMapping
-	public ResponseEntity<BatchDTO> saveBatch(
-			@RequestBody BatchDTO batch) throws RecordNotFoundException{
+	public ResponseEntity<BatchDTO> saveBatch(@RequestBody BatchDTO batch){
 		return ResponseEntity.ok(batchService.saveBatch(batch));
 	}
 	

@@ -43,9 +43,13 @@ public class BranchEntity extends BaseEntity {
 	@OneToMany(mappedBy = "branch",cascade = CascadeType.ALL)
 	private List<BatchEntity> batches;
 	
+	@OneToMany(mappedBy = "branch",cascade = CascadeType.ALL)
+	private List<CourtEntity> courts;
+	
 	public BranchEntity(){
 		this.clientUsers = new ArrayList<>();
 		this.guests = new ArrayList<>();
 		this.batches = new ArrayList<>();
+		this.courts = new ArrayList<>();
 	}
 }
