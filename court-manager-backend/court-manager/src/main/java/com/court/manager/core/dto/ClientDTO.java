@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -16,17 +18,14 @@ public class ClientDTO extends BaseDTO {
 	private String name;
 	private String owner;
 	private String email;
+	
+	@JsonManagedReference
 	private List<BranchDTO> branches;
-	private List<GuestDTO> guests;
-	private List<BatchDTO> batches;
 
 
 	public ClientDTO(){
 		super();
 		this.branches = new ArrayList<>();
-		this.guests = new ArrayList<>();
-		this.batches = new ArrayList<>();
-		
 	}
 	
 	public void addBranch(BranchDTO branch) {

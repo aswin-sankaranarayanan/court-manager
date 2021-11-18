@@ -16,7 +16,9 @@ public class CourtManagerApplication {
 	@Bean
 	public ModelMapper mapper() {
 		ModelMapper mapper = new ModelMapper();
-		mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		mapper.getConfiguration()
+		.setMatchingStrategy(MatchingStrategies.STRICT)
+		.setSkipNullEnabled(true);
 		return mapper;
 	}
 }

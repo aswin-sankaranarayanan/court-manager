@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.court.manager.common.RecordNotFoundException;
 import com.court.manager.core.dto.BatchDTO;
-import com.court.manager.core.dto.BranchDTO;
 import com.court.manager.core.dto.PagedResponseDTO;
 import com.court.manager.core.entity.BatchEntity;
 import com.court.manager.core.repository.BatchRepository;
@@ -15,17 +14,17 @@ import com.court.manager.core.repository.BatchRepository;
 public class BatchService extends BaseService<BatchEntity, BatchDTO, BatchRepository>{
 	
 	private BranchService branchService;
-	private BatchRepository repository;
+	private BatchRepository batchRepository;
 	
 	public BatchService(BatchRepository repository,BranchService branchService) {
 		this.branchService = branchService;
-		this.repository = repository;
+		this.batchRepository = repository;
 		init(BatchEntity.class, BatchDTO.class, repository);
 	}
 
 
 
-	public BatchDTO saveBatch(BatchDTO batchDTO) throws RecordNotFoundException {
+	public BatchDTO saveBatch(BatchDTO batchDTO){
 		return save(batchDTO);
 	}
 
@@ -37,7 +36,7 @@ public class BatchService extends BaseService<BatchEntity, BatchDTO, BatchReposi
 	
 	public PagedResponseDTO<BatchDTO> findAllBatchesByBranchId(int pageNum, int size,Long branchId){
 		Pageable pageable = PageRequest.of(pageNum == 0?0:pageNum-1, size);
-		Page<BatchEntity> pages =  repository.findByBranchId(branchId,pageable);
+		Page<BatchEntity> pages =  batchRepository.findByBranchId(branchId,pageable);
 		return constructPagedResponseDTO(pages);
 	}
 	
